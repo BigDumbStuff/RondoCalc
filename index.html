@@ -28,8 +28,10 @@
         </div>
         <br />
         <div>Total PWR: <input id="totalPWR" value="0" style="width: 120px;"></div>
+        <br />
         <div>+1 Stat: <input id="stat1" value="0" style="width: 120px;"></div>
         <div>+1 Level: <input id="lvl1" value="0" style="width: 120px;"></div>
+        <div>+1 %: <input id="p1" value="0" style="width: 120px;"></div>
     </div>
     <script>
         function Calculate()
@@ -41,6 +43,8 @@
             base.value = Math.round(b);
             totalPWR.value = Math.round(tot);
 
+
+            p1.value = Math.round((b * (totalP + 0.01) + totalF) - tot);
 
             b = (ParseShortFloat(stats.value) + 1) * GetLevelMult(ParseShortFloat(lvl.value));
             stat1.value = Math.round((b * totalP + totalF) - tot);
