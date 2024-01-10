@@ -3,7 +3,7 @@
     <style type="text/css">
         .grid-container {
             display: grid;
-            column-gap: 50px;
+            column-gap: 30px;
         }
     </style>
 </head>
@@ -29,9 +29,9 @@
         <br />
         <div>Total PWR: <input id="totalPWR" value="0" style="width: 120px;"></div>
         <br />
-        <div>+1 Stat: <input id="stat1" value="0" style="width: 120px;"></div>
-        <div>+1 Level: <input id="lvl1" value="0" style="width: 120px;"></div>
-        <div>+1 %: <input id="p1" value="0" style="width: 120px;"></div>
+        <div>Add <input id="addStat" value="1" style="width: 40px;" oninput="Calculate()"> Stat: <input id="addStatRes" value="0" style="width: 120px;" readonly></div>
+        <div>Add <input id="addLvl" value="1" style="width: 40px;" oninput="Calculate()"> Level: <input id="addLvlRes" value="0" style="width: 120px;" readonly></div>
+        <div>Add <input id="addP" value="1" style="width: 40px;" oninput="Calculate()"> %: <input id="addPRes" value="0" style="width: 120px;" readonly></div>
     </div>
     <script>
         function Calculate()
@@ -44,13 +44,13 @@
             totalPWR.value = Math.round(tot);
 
 
-            p1.value = Math.round((b * (totalP + 0.01) + totalF) - tot);
+            addPRes.value = Math.round((b * (totalP + ParseShortFloat(addP.value) / 100) + totalF) - tot);
 
-            b = (ParseShortFloat(stats.value) + 1) * GetLevelMult(ParseShortFloat(lvl.value));
-            stat1.value = Math.round((b * totalP + totalF) - tot);
+            b = (ParseShortFloat(stats.value) + ParseShortFloat(addStat.value)) * GetLevelMult(ParseShortFloat(lvl.value));
+            addStatRes.value = Math.round((b * totalP + totalF) - tot);
 
-            b = ParseShortFloat(stats.value) * GetLevelMult((ParseShortFloat(lvl.value) + 1));
-            lvl1.value = Math.round((b * totalP + totalF) - tot);
+            b = ParseShortFloat(stats.value) * GetLevelMult((ParseShortFloat(lvl.value) + ParseShortFloat(addLvl.value)));
+            addLvlRes.value = Math.round((b * totalP + totalF) - tot);
         }
         function GetLevelMult(level)
         {
