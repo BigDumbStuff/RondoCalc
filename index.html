@@ -3,31 +3,42 @@
     <style type="text/css">
         .grid-container {
             display: grid;
-            column-gap: 30px;
+            column-gap: 20px;
+            grid-template-columns: auto auto auto;
+        }
+        .grid-item {
+            width: 150px; 
+        }
+        input {
+            border: 1px #aaa solid;
+            border-radius: 2px;
+        }
+        input:read-only {
+            background-color: #eee;
         }
     </style>
 </head>
 <body>
-    <div style="width: 520px;">
-        <div class="grid-container" style="grid-template-columns: auto auto auto;">
-            <div class="grid-item">Level:<input id="lvl" value="1" style="width: 80px;" oninput="Calculate()"></div>
-            <div class="grid-item">Stats:<input id="stats" value="30" style="width: 80px;" oninput="Calculate()"></div>
+    <div style="width: fit-content;">
+        <div class="grid-container">
+            <div class="grid-item">Level: <input id="lvl" value="1" style="width: 80px;" oninput="Calculate()"></div>
+            <div class="grid-item">Stats: <input id="stats" value="30" style="width: 80px;" oninput="Calculate()"></div>
             <div class="grid-item"></div>
-            <div class="grid-item">Base:<input id="base" value="0" style="width: 80px;" readonly></div>
-            <div class="grid-item">Relic:<input id="relicP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">Ship:<input id="shipP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">Buff:<input id="buffP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">RNK^:<input id="rnkP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">TAL:<input id="talP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">Ship:<input id="ship" value="0" style="width: 80px;" oninput="Calculate()"></div>
-            <div class="grid-item">Item:<input id="item" value="0" style="width: 80px;" oninput="Calculate()"></div>
-            <div class="grid-item">RNK^:<input id="rnk" value="0" style="width: 80px;" oninput="Calculate()"></div>
-            <div class="grid-item">PVP:<input id="pvp" value="0" style="width: 80px;" oninput="Calculate()"></div>
-            <div class="grid-item">Rank:<input id="rankP" value="0" style="width: 80px;" oninput="Calculate()">%</div>
-            <div class="grid-item">Rank:<input id="rank" value="0" style="width: 80px;" oninput="Calculate()"></div>
+            <div class="grid-item"><div style="width: 40%; float: left">Base: </div><input id="base" value="0"  style="width: 60%; float: left;" readonly></div>
+            <div class="grid-item"><div style="width: 40%; float: left ">Relic: </div><input id="relicP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left ">Ship: </div><input id="shipP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left ">Buff: </div><input id="buffP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left ">RNK ↑: </div><input id="rnkP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left">TAL: </div><input id="talP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left">Ship: </div><input id="ship" value="0" style="width: 60%; float: left;" oninput="Calculate()"></div>
+            <div class="grid-item"><div style="width: 40%; float: left">Item: </div><input id="item" value="0" style="width: 60%; float: left;" oninput="Calculate()"></div>
+            <div class="grid-item"><div style="width: 40%; float: left">RNK ↑: </div><input id="rnk" value="0" style="width: 60%; float: left;" oninput="Calculate()"></div>
+            <div class="grid-item"><div style="width: 40%; float: left">PVP: </div><input id="pvp" value="0" style="width: 60%; float: left;" oninput="Calculate()"></div>
+            <div class="grid-item"><div style="width: 40%; float: left">Rank ↑: </div><input id="rankP" value="0" style="width: 50%; float: left;" oninput="Calculate()">%</div>
+            <div class="grid-item"><div style="width: 40%; float: left">Rank ↑: </div><input id="rank" value="0" style="width: 60%; float: left; " oninput="Calculate()"></div>
         </div>
         <br />
-        <div>Total PWR: <input id="totalPWR" value="0" style="width: 120px;"></div>
+        <div>Total PWR: <input id="totalPWR" value="0" style="width: 120px;" readonly></div>
         <br />
         <div>Add <input id="addStat" value="1" style="width: 40px;" oninput="Calculate()"> Stat: <input id="addStatRes" value="0" style="width: 120px;" readonly></div>
         <div>Add <input id="addLvl" value="1" style="width: 40px;" oninput="Calculate()"> Level: <input id="addLvlRes" value="0" style="width: 120px;" readonly></div>
