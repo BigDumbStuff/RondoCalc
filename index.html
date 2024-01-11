@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="LoadAlly()">
     <div style="width: fit-content;">
         <div class="grid-container">
             <div class="grid-item"><div>Level:</div><input id="lvl" value="1" style="width: 50px;" oninput="Calculate()"></div>
@@ -59,6 +59,31 @@
         <div><input type="checkbox" id="shortNum" oninput="Calculate()" checked> Short Numbers</div>
     </div>
     <script>
+        class Ally {
+            constructor() {
+                this.Level = 1; this.Stats = 30;
+                this.RelicP = 0; this.ShipP = 0;
+                this.BuffP = 0; this.RnkP = 0; this.TalP = 0;
+                this.Ship = 0; this.Item = 0; this.Rnk = 0;
+                this.Pvp = 0; this.RankP = 0; this.Rank = 0;
+            }
+            static Parse(json) {
+                let jObj = JSON.parse(json);
+                let ally = new Ally();
+                ally.Level = jObj['Level']; ally.Stats = jObj['Stats'];
+                ally.RelicP = jObj['RelicP']; ally.ShipP = jObj['ShipP'];
+                ally.BuffP = jObj['BuffP']; ally.RnkP = jObj['RnkP']; ally.TalP = jObj['TalP'];
+                ally.Ship = jObj['Ship']; ally.Item = jObj['Item']; ally.Rnk = jObj['Rnk'];
+                ally.Pvp = jObj['Pvp']; ally.RankP = jObj['RankP']; ally.Rank = jObj['Rank'];
+                return ally;
+            }
+            ToJson() {
+                return JSON.stringify(this);
+            }
+        }
+
+        let ally = new Ally();
+
         function Clear()
         {
             lvl.value = '1';
@@ -74,28 +99,32 @@
             pvp.value = '0';
             rankP.value = '0';
             rank.value = '0';
+
             Calculate();
         }
         function Calculate()
         {
-            let totalP = 1 + (ParseShortFloat(relicP.value) + ParseShortFloat(shipP.value) + ParseShortFloat(buffP.value) + ParseShortFloat(rnkP.value) + ParseShortFloat(talP.value) + ParseShortFloat(rankP.value)) / 100;
-            let totalF = ParseShortFloat(ship.value) + ParseShortFloat(item.value) + ParseShortFloat(rnk.value) + ParseShortFloat(pvp.value) + ParseShortFloat(rank.value);
-            let b = ParseShortFloat(stats.value) * GetLevelMult(ParseShortFloat(lvl.value));
+            SaveAlly();
+
+            let totalP = 1 + (ally.RelicP + ally.ShipP + ally.BuffP + ally.RnkP + ally.TalP + ally.RankP) / 100;
+            let totalF = ally.Ship + ally.Item + ally.Rnk + ally.Pvp + ally.Rank;
+            let b = ally.Stats * GetLevelMult(ally.Level);
             let tot = b * totalP + totalF;
             let short = shortNum.checked;
+
             base.value = ToNumString(b, short);
             totalPWR.value = ToNumString(tot, short);
 
 
             addPRes.value = ToNumString((b * (totalP + ParseShortFloat(addP.value) / 100) + totalF) - tot, short);
 
-            b = (ParseShortFloat(stats.value) + ParseShortFloat(addStat.value)) * GetLevelMult(ParseShortFloat(lvl.value));
+            b = (ally.Stats + ParseShortFloat(addStat.value)) * GetLevelMult(ally.Level);
             addStatRes.value = ToNumString((b * totalP + totalF) - tot, short);
 
-            b = ParseShortFloat(stats.value) * GetLevelMult((ParseShortFloat(lvl.value) + ParseShortFloat(addLvl.value)));
+            b = ally.Stats * GetLevelMult((ally.Level + ParseShortFloat(addLvl.value)));
             addLvlRes.value = ToNumString((b * totalP + totalF) - tot, short);
 
-            lvlCost.value = ToNumString(GetLevelCost(ParseShortFloat(lvl.value), ParseShortFloat(addLvl.value)), short);
+            lvlCost.value = ToNumString(GetLevelCost(ally.Level, ParseShortFloat(addLvl.value)), short);
         }
         function GetLevelCost(start, count)
         {
@@ -171,6 +200,46 @@
                 return 0;
 
             return parseFloat(valStr) * m;
+        }
+        function SaveAlly()
+        {
+            ally.Level = ParseShortFloat(lvl.value);
+            ally.Stats = ParseShortFloat(stats.value);
+            ally.RelicP = ParseShortFloat(relicP.value);
+            ally.ShipP = ParseShortFloat(shipP.value);
+            ally.BuffP = ParseShortFloat(buffP.value);
+            ally.RnkP = ParseShortFloat(rnkP.value);
+            ally.TalP = ParseShortFloat(talP.value);
+            ally.RankP = ParseShortFloat(rankP.value);
+            ally.Ship = ParseShortFloat(ship.value);
+            ally.Item = ParseShortFloat(item.value);
+            ally.Rnk = ParseShortFloat(rnk.value);
+            ally.Pvp = ParseShortFloat(pvp.value);
+            ally.Rank = ParseShortFloat(rank.value);
+
+            localStorage.setItem("ally", ally.ToJson());
+        }
+        function LoadAlly()
+        {
+            let allyStr = localStorage.getItem("ally");
+            if (allyStr)
+                ally = Ally.Parse(allyStr);
+
+            lvl.value = ally.Level;
+            stats.value = ally.Stats;
+            relicP.value = ally.RelicP;
+            shipP.value = ally.ShipP;
+            buffP.value = ally.BuffP;
+            rnkP.value = ally.RnkP;
+            talP.value = ally.TalP;
+            rankP.value = ally.RankP;
+            ship.value = ally.Ship;
+            item.value = ally.Item;
+            rnk.value = ally.Rnk;
+            pvp.value = ally.Pvp;
+            rank.value = ally.Rank;
+
+            Calculate();
         }
     </script>
 </body>
